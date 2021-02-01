@@ -293,6 +293,12 @@ class WebpackCLI {
                 multiple: true,
                 description: 'Environment passed to the configuration when it is a function.',
             },
+            {
+                name: 'node-env',
+                type: String,
+                multiple: false,
+                description: 'Sets process.env.NODE_ENV to the specified value',
+            },
 
             // Adding more plugins
             {
@@ -1357,6 +1363,10 @@ class WebpackCLI {
         if (typeof options.progress === 'string' && options.progress !== 'profile') {
             this.logger.error(`'${options.progress}' is an invalid value for the --progress option. Only 'profile' is allowed.`);
             process.exit(2);
+        }
+
+        if (typeof options.nodeEnv === 'string') {
+            process.env.NODE_ENV = options.nodeEnv;
         }
 
         const outputHints = (configOptions) => {
